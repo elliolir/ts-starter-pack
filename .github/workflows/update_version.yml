@@ -11,17 +11,14 @@ jobs:
   update_version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           fetch-tags: true
           ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 22
-          cache: 'npm'
-          cache-dependency-path: './package-lock.json'
+      - name: Setup runner
+        uses: ./.github/actions/setup-runner
 
       - name: Increase ${{ inputs.increment }} version
         run: |

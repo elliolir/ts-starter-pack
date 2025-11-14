@@ -10,13 +10,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v5
     - uses: actions/setup-node@v6
       with:
         node-version: ${{inputs.node_version}}
         cache: 'npm'
         cache-dependency-path: 'package-lock.json'
 
-    - name: Configure NPM + Install Dependencies
+    - name: Install Dependencies
       shell: bash
       run: npm ci
