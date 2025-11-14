@@ -1,0 +1,36 @@
+name: Check changes
+
+on:
+  pull_request:
+    branches: ['main']
+  push:
+    branches: ['main']
+
+# disable git hooks installing
+env:
+  HUSKY: 0
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  check:
+    name: Builds, tests and validates the changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup runner
+        uses: ./.github/actions/setup-runner
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test:ci

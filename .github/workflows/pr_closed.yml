@@ -1,0 +1,30 @@
+name: PR Closed
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions: write-all
+
+jobs:
+  increase_major:
+    if: ${{ github.ref_type == 'branch' && contains(github.head_ref, 'major/') }}
+    uses: ./.github/workflows/update_version.yml
+    with:
+      increment: major
+    secrets: inherit
+
+  increase_minor:
+    if: ${{ github.ref_type == 'branch' && contains(github.head_ref, 'minor/') }}
+    uses: ./.github/workflows/update_version.yml
+    with:
+      increment: minor
+    secrets: inherit
+
+  increase_patch:
+    if: ${{ github.ref_type == 'branch' && contains(github.head_ref, 'patch/') }}
+    uses: ./.github/workflows/update_version.yml
+    with:
+      increment: patch
+    secrets: inherit

@@ -1,0 +1,43 @@
+name: Update version
+
+on:
+  workflow_call:
+    inputs:
+      increment:
+        required: true
+        type: string
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+
+      - name: Increase ${{ inputs.increment }} version
+        run: |
+          echo "Current package.json version:"
+          echo $(cat package.json | jq -r .version)
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          npm version --no-git-tag-version ${{ inputs.increment }}
+
+          echo "Version after npm version:"
+          echo $(cat package.json | jq -r .version)
+
+          git add -A
+          git commit --amend --no-edit
+          git push --force
+
+          git tag $(cat package.json | jq -r .version)
+          git push --tags

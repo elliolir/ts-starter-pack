@@ -1,0 +1,22 @@
+name: Setup runner
+description: Composite action to init the runner
+
+inputs:
+  node_version:
+    description: 'Version of Node.js to run builds on'
+    required: false
+    default: '22'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v6
+      with:
+        node-version: ${{inputs.node_version}}
+        cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
+
+    - name: Configure NPM + Install Dependencies
+      shell: bash
+      run: npm ci
