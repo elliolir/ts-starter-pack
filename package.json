@@ -2,6 +2,7 @@
   "name": "ts-started-pack",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -11,9 +12,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "start": "ts-node main.ts",
-    "dev": "ts-node-dev --inspect --respawn --files main.ts",
-    "test": "jest --colors --verbose=true",
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon --exec \"node --loader ts-node/esm src/index.ts\"",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --colors --verbose=true",
     "test:ci": "npm run test -- --coverage",
     "test:watch": "npm run test -- --watchAll",
     "lint": "prettier --check . && eslint",
@@ -29,6 +30,8 @@
     "@eslint/js": "^9.39.1",
     "@eslint/json": "^0.14.0",
     "@types/jest": "^30.0.0",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
@@ -37,13 +40,12 @@
     "husky": "^9.1.7",
     "jest": "^30.2.0",
     "lint-staged": "^16.2.6",
-    "ts-jest": "^29.4.5",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.4",
-    "@types/node": "^24.10.1",
-    "eslint": "^9.39.1",
+    "nodemon": "^3.1.11",
     "prettier": "^3.6.2",
-    "ts-node": "^10.9.2"
+    "ts-jest": "^29.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4"
   },
   "engines": {
     "node": ">=22"

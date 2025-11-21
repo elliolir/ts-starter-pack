@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "target": "esnext",
     "typeRoots": ["./node_modules/@types"],
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "Node",
     // For nodejs:
     // "lib": ["esnext"],
